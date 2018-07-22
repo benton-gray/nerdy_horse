@@ -7,8 +7,14 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 3.6 (nerdy_horse)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="quarter-for-conservation" />
+    <orderEntry type="module" module-name="quarter-for-conservation" />
+    <orderEntry type="module" module-name="computer_network_project" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="skulpt" level="application" />
+    <orderEntry type="library" name="skulpt-stdlib" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />

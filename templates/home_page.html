@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Weight Watchers</title>
+</head>
+<body>
+
+<form action="/set_weight" method="POST">
+    Weight:<br>
+    <input type="text" name="weight"><br>
+    <input type="submit" value="Set Weight">
+</form>
+<form action="/add_weight" method="POST">
+    <input type="submit" name="plus_1" value="+1">
+    <input type="submit" name="plus_2" value="+2">
+    <input type="submit" name="plus_3" value="+3">
+    <input type="submit" name="plus_4" value="+4">
+    <input type="submit" name="plus_5" value="+5">
+</form>
+
+{{ weight }}
+
+</body>
+</html>
