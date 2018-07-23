@@ -5,37 +5,52 @@ app = Flask(__name__)
 temp = 0
 womens = 15
 mens = 20
+data = {}
 
 @app.route('/')
 def home_page():
-    global temp
-    return render_template('home_page.html', weight=temp)
+    global data
+    print(data)
+    cookie = request.headers.get('Cookie')
+    if cookie in data:
+        return render_template('home_page.html', weight=data[cookie])
+
+    data.update({cookie: 0})
+    return render_template('home_page.html', weight=data[cookie])
 
 
 @app.route('/set_weight', methods=['POST'])
 def set_weight():
-    global temp
-    if not request.form['weight']:
-        return render_template('home_page.html', weight=temp)
+    global data
+    cookie = request.headers.get('Cookie')
+    if cookie not in data:
+        data.update({cookie: 0})
 
-    temp = int(request.form['weight'])
-    return render_template('home_page.html', weight=temp)
+    if not request.form['weight']:
+        return render_template('home_page.html', weight=data[cookie])
+
+    data[cookie] = int(request.form['weight'])
+    return render_template('home_page.html', weight=data[cookie])
 
 #
 @app.route('/add_weight', methods=['POST'])
 def add_weight():
-    global temp
+    global data
+    cookie = request.headers.get('Cookie')
+    if cookie not in data:
+        data.update({cookie: 0})
+
     if request.form.getlist('plus_1'):
-        temp += 1
+        data[cookie] += 1
     if request.form.getlist('plus_2'):
-        temp += 2
+        data[cookie] += 2
     if request.form.getlist('plus_3'):
-        temp += 3
+        data[cookie] += 3
     if request.form.getlist('plus_4'):
-        temp += 4
+        data[cookie] += 4
     if request.form.getlist('plus_5'):
-        temp += 5
-    return render_template('home_page.html', weight=temp)
+        data[cookie] += 5
+    return render_template('home_page.html', weight=data[cookie])
 
 # @app.route('/login', methods=['GET', 'POST'])
 # def login():
