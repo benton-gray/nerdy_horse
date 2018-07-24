@@ -1,13 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <style>
+.bar {
+    width: 60%;
+    height: 20px;
+    margin: 5px;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    position: absolute;
+    top: 60%;
+    left: 20%
+}
+.plate {
+    width: 20px;
+    height: 200px;
+    margin: 5px;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+.red {
+    background: darkred;
+    position: absolute;
+    top: 50%;
+    left: 18%;
+}
+.blue {
+    background: #1a14ff;
+    position: absolute;
+    top: 50%;
+    left: 16%;
+}
+.yellow {
+    background: #fff811;
+    position: absolute;
+    top: 50%;
+    left: 14%;
+}
+.green {
+    background: forestgreen;
+    position: absolute;
+    top: 50%;
+    left: 12%;
+}
+.white {
+    height: 100px;
+    background: white;
+    position: absolute;
+    top: 55%;
+    left: 10%;
+}
+
 input[type=submit] {
     width: 15%;
     background-color: forestgreen;
     color: white;
     padding: 14px 20px;
     margin: 8px;
-    display: inline;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -22,16 +76,57 @@ input[type=submit]:hover {
     width: 40%;
     padding: 12px 20px;
     margin: 8px;
-    display: inline-block;
-    border: 1px solid #ccc;
+    display: block;
+    border: 1px solid #45a049;
     border-radius: 4px;
 }
 
-div {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
+#texty {
+    position: absolute;
+    top: 10%;
+    left: 27%;
 }
+
+#weight {
+    position: absolute;
+    top: 20%;
+    left: 27%;
+}
+
+#plus_1 {
+    position: absolute;
+    top: 33%;
+    left: 8%;
+}
+
+#plus_2 {
+    position: absolute;
+    top: 33%;
+    left: 24%;
+}
+
+#plus_3 {
+    position: absolute;
+    top: 33%;
+    left: 40%;
+}
+
+#plus_4 {
+    position: absolute;
+    top: 33%;
+    left: 56%;
+}
+
+#plus_5 {
+    position: absolute;
+    top: 33%;
+    left: 72%;
+}
+
+body {
+    background-color: floralwhite;
+}
+
 </style>
 <head>
     <meta charset="UTF-8">
@@ -40,19 +135,22 @@ div {
 <body>
 
 <form id=set_weight action="/set_weight" method="POST">
-    Weight:<br>
-    <input type="text" name="weight"><br>
-    <input type="submit" value="Set Weight">
+    {{ weight }} {{ color_switch.keys() }}Kilos:<br>
+    <input id="texty" type="text" name="weight"><br>
+    <input id="weight" type="submit" value="Set Weight">
 </form>
 <form id=add_weight action="/add_weight" method="POST">
-    <input type="submit" name="plus_1" value="+1">
-    <input type="submit" name="plus_2" value="+2">
-    <input type="submit" name="plus_3" value="+3">
-    <input type="submit" name="plus_4" value="+4">
-    <input type="submit" name="plus_5" value="+5">
+    <input id="plus_1" type="submit" name="plus_1" value="+1">
+    <input id="plus_2" type="submit" name="plus_2" value="+2">
+    <input id="plus_3" type="submit" name="plus_3" value="+3">
+    <input id="plus_4" type="submit" name="plus_4" value="+4">
+    <input id="plus_5" type="submit" name="plus_5" value="+5">
 </form>
-
-{{ weight }}
-
+<div class="plate red"></div>
+<div class="plate blue"></div>
+<div class="plate yellow"></div>
+<div class="plate green"></div>
+<div class="plate white"></div>
+<div class="bar steel"></div>
 </body>
 </html>

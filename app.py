@@ -7,6 +7,18 @@ womens = 15
 mens = 20
 data = {}
 
+def make_weights(weight):
+    denominations = {50:'red',40:'blue',30:'yellow',20:'green',10:'white'}
+    visual_mapping = {}
+    weight -= mens
+    for denomination in denominations.keys():
+        if (weight-denomination) > 0:
+            weight -= denomination
+            visual_mapping.update({denominations[denomination]:'T'})
+
+    print(visual_mapping)
+    return visual_mapping
+
 @app.route('/')
 def home_page():
     global data
@@ -16,7 +28,8 @@ def home_page():
         return render_template('home_page.html', weight=data[cookie])
 
     data.update({cookie: 0})
-    return render_template('home_page.html', weight=data[cookie])
+    colors = make_weights(data[cookie])
+    return render_template('home_page.html', weight=data[cookie], color_switch=colors)
 
 
 @app.route('/set_weight', methods=['POST'])
@@ -30,9 +43,11 @@ def set_weight():
         return render_template('home_page.html', weight=data[cookie])
 
     data[cookie] = int(request.form['weight'])
-    return render_template('home_page.html', weight=data[cookie])
+    make_weights(data[cookie])
+    colors = make_weights(data[cookie])
+    return render_template('home_page.html', weight=data[cookie], color_switch=colors)
 
-#
+
 @app.route('/add_weight', methods=['POST'])
 def add_weight():
     global data
@@ -50,7 +65,9 @@ def add_weight():
         data[cookie] += 4
     if request.form.getlist('plus_5'):
         data[cookie] += 5
-    return render_template('home_page.html', weight=data[cookie])
+    make_weights(data[cookie])
+    colors = make_weights(data[cookie])
+    return render_template('home_page.html', weight=data[cookie], color_switch=colors)
 
 # @app.route('/login', methods=['GET', 'POST'])
 # def login():
