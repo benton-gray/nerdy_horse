@@ -3,38 +3,73 @@ from flask import Flask, url_for, request, render_template
 app = Flask(__name__)
 
 temp = 0
-womens = 15
-mens = 20
+womens = 20
+mens = 25
+denominations = {
+                50: 'red',
+                40: 'blue',
+                30: 'yellow',
+                20: 'green',
+                10: 'white',
+                5: 'small_red',
+                4: 'small_blue',
+                3: 'small_yellow',
+                2: 'small_green',
+                1: 'small_white'
+                }
 data = {}
+visual_list = []
+first_recurse = True
 
-def make_weights(weight):
-    denominations = {50:'red',40:'blue',30:'yellow',20:'green',10:'white'}
-    visual_mapping = {}
-    weight -= mens
+def make_weights(weight, first_recurse, visual_list):
+    if first_recurse:
+        weight -= mens
+        first_recurse = False
+
+    # print('current weight: {}'.format(weight))
     for denomination in denominations.keys():
+        # print("{} denom weight".format(denomination))
         if (weight-denomination) > 0:
             weight -= denomination
-            visual_mapping.update({denominations[denomination]:'T'})
+            visual_list.append(denominations[denomination])
+            # print('break weight {}' .format(weight))
+            break
+        elif (weight-denomination) in [0]:
+            visual_list.append(denominations[denomination])
+            # print('final denom {}' .format(denomination))
+            return visual_list
 
-    print(visual_mapping)
-    return visual_mapping
+
+    if weight < 0:
+        return visual_list
+
+    # print(visual_list)
+    return make_weights(weight, first_recurse, visual_list)
 
 @app.route('/')
 def home_page():
     global data
-    print(data)
+    global visual_list
+    global first_recurse
+    #print(data)
     cookie = request.headers.get('Cookie')
     if cookie in data:
         return render_template('home_page.html', weight=data[cookie])
 
     data.update({cookie: 0})
-    colors = make_weights(data[cookie])
+    visual_list = []
+    first_recurse = True
+    colors = make_weights(data[cookie], first_recurse, visual_list)
+    print(colors)
     return render_template('home_page.html', weight=data[cookie], color_switch=colors)
 
 
 @app.route('/set_weight', methods=['POST'])
 def set_weight():
     global data
+    global visual_list
+    global first_recurse
+
     cookie = request.headers.get('Cookie')
     if cookie not in data:
         data.update({cookie: 0})
@@ -43,14 +78,17 @@ def set_weight():
         return render_template('home_page.html', weight=data[cookie])
 
     data[cookie] = int(request.form['weight'])
-    make_weights(data[cookie])
-    colors = make_weights(data[cookie])
+    visual_list = []
+    first_recurse = True
+    colors = make_weights(data[cookie], first_recurse, visual_list)
     return render_template('home_page.html', weight=data[cookie], color_switch=colors)
 
 
 @app.route('/add_weight', methods=['POST'])
 def add_weight():
     global data
+    global visual_list
+    global first_recurse
     cookie = request.headers.get('Cookie')
     if cookie not in data:
         data.update({cookie: 0})
@@ -65,8 +103,9 @@ def add_weight():
         data[cookie] += 4
     if request.form.getlist('plus_5'):
         data[cookie] += 5
-    make_weights(data[cookie])
-    colors = make_weights(data[cookie])
+    visual_list = []
+    first_recurse = True
+    colors = make_weights(data[cookie], first_recurse, visual_list)
     return render_template('home_page.html', weight=data[cookie], color_switch=colors)
 
 # @app.route('/login', methods=['GET', 'POST'])
